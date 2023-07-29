@@ -13,16 +13,25 @@ const createCard = (pokemon) => {
 };
 
 const getPokemon = async (term) => {
-     const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${term}`)
+     let pokemon = localStorage.getItem(term);
+
+     if (pokemon) {
+          createCard(JSON.parse(pokemon));
+          return;
+     }
+
+     pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${term}`)
           .then((response) => {
                if (!response.ok) {
                     throw new Error('No search results');
                }
+
                return response.json();
           })
           .catch((error) => createErrorMessage(error));
 
      if (pokemon) {
+          localStorage.setItem(term, JSON.stringify(pokemon));
           createCard(pokemon);
      }
 };
