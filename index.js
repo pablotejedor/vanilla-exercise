@@ -27,6 +27,14 @@ const getPokemon = async (term) => {
      }
 };
 
+searchInput.addEventListener('keyup', () => {
+     if (!searchInput.value) {
+          searchButton.setAttribute('disabled', '');
+     } else {
+          searchButton.removeAttribute('disabled');
+     }
+});
+
 searchButton.addEventListener('click', () => {
      getPokemon(searchInput.value);
 });
