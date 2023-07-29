@@ -27,8 +27,12 @@ const capitalizeFirstLetter = (string) => {
      return `${string[0].toUpperCase()}${string.slice(1)}`;
 };
 
-const createErrorMessage = (error) => {
+const displayErrorMessage = (error) => {
      resultsContainer.innerHTML = `<h2 class='error-message'>${error}</h2>`;
+};
+
+const displayLoadingMessage = () => {
+     resultsContainer.innerHTML = `<h2>Loading...</h2>`;
 };
 
 const createCard = (pokemon) => {
@@ -62,6 +66,8 @@ const createCard = (pokemon) => {
 };
 
 const getPokemon = async (term) => {
+     displayLoadingMessage();
+
      let pokemon = localStorage.getItem(term);
 
      if (pokemon) {
@@ -77,7 +83,7 @@ const getPokemon = async (term) => {
 
                return response.json();
           })
-          .catch((error) => createErrorMessage(error));
+          .catch((error) => displayErrorMessage(error));
 
      if (pokemon) {
           localStorage.setItem(term, JSON.stringify(pokemon));
