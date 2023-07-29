@@ -3,7 +3,7 @@ const searchButton = document.querySelector('.search-button');
 const resultsContainer = document.querySelector('.results-container');
 
 const createErrorMessage = (error) => {
-     resultsContainer.innerHTML = `<h2>${error}</h2>`;
+     resultsContainer.innerHTML = `<h2 class='error-message'>${error}</h2>`;
 };
 
 const createCard = (pokemon) => {
