@@ -2,12 +2,65 @@ const searchInput = document.querySelector('.search-input');
 const searchButton = document.querySelector('.search-button');
 const resultsContainer = document.querySelector('.results-container');
 
+const colors = {
+     bug: '#A7B723',
+     dark: '#75574C',
+     dragon: '#7037FF',
+     electric: '#F9CF30',
+     fairy: '#E69EAC',
+     fighting: '#C12239',
+     fire: '#F57D31',
+     flying: '#A891EC',
+     ghost: '#70559B',
+     normal: '#AAA67F',
+     grass: '#74CB48',
+     ground: '#DEC16B',
+     ice: '#9AD6DF',
+     poison: '#A43E9E',
+     psychic: '#FB5584',
+     rock: '#B69E31',
+     steel: '#B7B9D0',
+     water: '#6493EB',
+};
+
+const capitalizeFirstLetter = (string) => {
+     return `${string[0].toUpperCase()}${string.slice(1)}`;
+};
+
 const createErrorMessage = (error) => {
      resultsContainer.innerHTML = `<h2 class='error-message'>${error}</h2>`;
 };
 
 const createCard = (pokemon) => {
-     const card = `<img src='${pokemon.sprites.other['official-artwork']['front_default']}' alt='${pokemon.name}' />`;
+     const types = pokemon.types.map((types) => types.type.name);
+
+     console.log(pokemon.types);
+
+     const card = `<div class='card'>
+     
+     <div class='card-left'>
+     <img src='${
+          pokemon.sprites.other['official-artwork']['front_default']
+     }' alt='${pokemon.name}' class='sprite' />
+     <h3>#${pokemon.id} ${capitalizeFirstLetter(pokemon.name)}</h3>
+     </div>
+
+     <div class='card-right'>
+     
+     <div class='badge-container'>
+     <h4>Types: </h4>
+     ${types.map(
+          (type) =>
+               `<div class='badge' style='background: ${
+                    colors[type]
+               }'>${capitalizeFirstLetter(type)}</div>`
+     )}
+     </div>
+     
+     </div>
+     
+     
+     </div>`;
 
      resultsContainer.innerHTML = card;
 };
