@@ -34,10 +34,7 @@ const createErrorMessage = (error) => {
 const createCard = (pokemon) => {
      const types = pokemon.types.map((types) => types.type.name);
 
-     console.log(pokemon.types);
-
      const card = `<div class='card'>
-     
      <div class='card-left'>
      <img src='${
           pokemon.sprites.other['official-artwork']['front_default']
@@ -48,7 +45,7 @@ const createCard = (pokemon) => {
      <div class='card-right'>
      
      <div class='badge-container'>
-     <h4>Types: </h4>
+          <h4>Types: </h4>
      ${types.map(
           (type) =>
                `<div class='badge' style='background: ${
@@ -56,10 +53,9 @@ const createCard = (pokemon) => {
                }'>${capitalizeFirstLetter(type)}</div>`
      )}
      </div>
-     
+     <h4>Height: ${pokemon.height}</h4>
+     <h4>Weight: ${pokemon.weight}</h4>
      </div>
-     
-     
      </div>`;
 
      resultsContainer.innerHTML = card;

@@ -56,7 +56,7 @@ h2 {
 .card {
      display: flex;
      justify-content: space-evenly;
-     padding: 2rem;
+     padding: 1rem;
      border-radius: 1rem;
      background-color: #cbd5e1;
      width: 40vw;
@@ -95,6 +95,6 @@ h2 {
      align-items: center;
 }
 
-.badge-container h4 {
-     margin: 0 0.5rem 0 0;
+.card-right h4 {
+     margin: 1rem;
 }
