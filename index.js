@@ -36,7 +36,7 @@ const displayLoadingMessage = () => {
 };
 
 const createCard = (pokemon) => {
-     const types = pokemon.types.map((types) => types.type.name);
+     const types = pokemon.types.map((types) => types.type);
 
      const card = `<div class='card'>
      <div class='card-left'>
@@ -50,12 +50,14 @@ const createCard = (pokemon) => {
      
      <div class='badge-container'>
           <h4>Types: </h4>
-     ${types.map(
-          (type) =>
-               `<div class='badge' style='background: ${
-                    colors[type]
-               }'>${capitalizeFirstLetter(type)}</div>`
-     )}
+     ${types
+          .map(
+               (type) =>
+                    `<div class='badge' style='background: ${
+                         colors[type.name]
+                    }'>${capitalizeFirstLetter(type.name)}</div>`
+          )
+          .join('')}
      </div>
      <h4>Height: ${pokemon.height}</h4>
      <h4>Weight: ${pokemon.weight}</h4>
@@ -100,5 +102,5 @@ searchInput.addEventListener('keyup', () => {
 });
 
 searchButton.addEventListener('click', () => {
-     getPokemon(searchInput.value);
+     getPokemon(searchInput.value.toLowerCase());
 });
