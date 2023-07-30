@@ -102,5 +102,9 @@ searchInput.addEventListener('keyup', () => {
 });
 
 searchButton.addEventListener('click', () => {
+     if (!searchInput.value.match(/^[A-Za-z0-9]*$/)) {
+          return displayErrorMessage('Your search term cannot contain symbols');
+     }
+
      getPokemon(searchInput.value.toLowerCase());
 });
