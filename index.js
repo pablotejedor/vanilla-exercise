@@ -1,6 +1,7 @@
 const searchInput = document.querySelector('.search-input');
 const searchButton = document.querySelector('.search-button');
 const resultsContainer = document.querySelector('.results-container');
+const messagesContainer = document.querySelector('.messages-container');
 
 const colors = {
      bug: '#A7B723',
@@ -28,43 +29,76 @@ const capitalizeFirstLetter = (string) => {
 };
 
 const displayErrorMessage = (error) => {
-     resultsContainer.innerHTML = `<h2 class='error-message'>${error}</h2>`;
+     messagesContainer.textContent = error;
+     messagesContainer.classList.add('error-message');
 };
 
 const displayLoadingMessage = () => {
-     resultsContainer.innerHTML = `<h2>Loading...</h2>`;
+     messagesContainer.textContent = 'Loading...';
+
+     if (messagesContainer.classList.contains('error-message'))
+          messagesContainer.classList.remove('error-message');
+};
+
+const clearMessages = () => {
+     messagesContainer.textContent = '';
 };
 
 const createCard = (pokemon) => {
      const types = pokemon.types.map((types) => types.type);
 
-     const card = `<div class='card'>
-     <div class='card-left'>
-     <img src='${
-          pokemon.sprites.other['official-artwork']['front_default']
-     }' alt='${pokemon.name}' class='sprite' />
-     <h3>#${pokemon.id} ${capitalizeFirstLetter(pokemon.name)}</h3>
-     </div>
+     const cardContainer = document.createElement('div');
+     cardContainer.classList.add('card');
 
-     <div class='card-right'>
-     
-     <div class='badge-container'>
-          <h4>Types: </h4>
-     ${types
-          .map(
-               (type) =>
-                    `<div class='badge' style='background: ${
-                         colors[type.name]
-                    }'>${capitalizeFirstLetter(type.name)}</div>`
-          )
-          .join('')}
-     </div>
-     <h4>Height: ${pokemon.height}</h4>
-     <h4>Weight: ${pokemon.weight}</h4>
-     </div>
-     </div>`;
+     const cardLeft = document.createElement('div');
+     cardLeft.classList.add('card-left');
 
-     resultsContainer.innerHTML = card;
+     const cardRight = document.createElement('div');
+     cardRight.classList.add('card-right');
+
+     const pokemonImg = document.createElement('img');
+     pokemonImg.src =
+          pokemon.sprites.other['official-artwork']['front_default'];
+     pokemonImg.alt = pokemon.name;
+     pokemonImg.classList.add('sprite');
+
+     const pokemonName = document.createElement('h3');
+     pokemonName.textContent = `#${pokemon.id} ${capitalizeFirstLetter(
+          pokemon.name
+     )}`;
+
+     const badgeContainer = document.createElement('div');
+     badgeContainer.classList.add('badge-container');
+
+     const pokemonTypes = document.createElement('h4');
+     pokemonTypes.textContent = 'Types: ';
+     badgeContainer.appendChild(pokemonTypes);
+
+     types.map((type) => {
+          const badge = document.createElement('span');
+          badge.classList.add('badge');
+          badge.style.background = colors[type.name];
+          badge.textContent = capitalizeFirstLetter(type.name);
+          badgeContainer.appendChild(badge);
+     });
+
+     const pokemonHeight = document.createElement('h4');
+     pokemonHeight.textContent = `Height: ${pokemon.height}`;
+
+     const pokemonWeight = document.createElement('h4');
+     pokemonWeight.textContent = `Weight: ${pokemon.weight}`;
+
+     cardLeft.appendChild(pokemonImg);
+     cardLeft.appendChild(pokemonName);
+
+     cardRight.appendChild(badgeContainer);
+     cardRight.appendChild(pokemonHeight);
+     cardRight.appendChild(pokemonWeight);
+
+     cardContainer.appendChild(cardLeft);
+     cardContainer.appendChild(cardRight);
+
+     resultsContainer.insertBefore(cardContainer, resultsContainer.firstChild);
 };
 
 const getPokemon = async (term) => {
@@ -73,6 +107,7 @@ const getPokemon = async (term) => {
      let pokemon = localStorage.getItem(term);
 
      if (pokemon) {
+          clearMessages();
           createCard(JSON.parse(pokemon));
           return;
      }
@@ -89,6 +124,7 @@ const getPokemon = async (term) => {
 
      if (pokemon) {
           localStorage.setItem(term, JSON.stringify(pokemon));
+          clearMessages();
           createCard(pokemon);
      }
 };

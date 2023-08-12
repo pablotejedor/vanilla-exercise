@@ -16,6 +16,17 @@ h2 {
      place-items: center;
 }
 
+.messages-container {
+     margin: 2rem 0;
+}
+
+.results-container {
+     display: flex;
+     width: 100%;
+     flex-wrap: wrap;
+     justify-content: center;
+}
+
 .error-message {
      color: red;
 }
@@ -64,7 +75,7 @@ h2 {
      border-radius: 1rem;
      background-color: #c6c6c8;
      width: 35vw;
-     margin: 5rem;
+     margin: 2rem;
 }
 
 .card-left {
